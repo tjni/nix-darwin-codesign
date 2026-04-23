@@ -1,0 +1,22 @@
+[package]
+name = "codesign-splice"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Splice precomputed Apple detached code signatures into unsigned Mach-O binaries"
+license = "MPL-2.0"
+# Not published to crates.io; shipped as part of nix-darwin-codesign.
+publish = false
+
+[dependencies]
+apple-codesign = { version = "0.29", default-features = false }
+goblin = "0.9"
+scroll = "0.12"
+anyhow = "1.0"
+clap = { version = "4.5", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
