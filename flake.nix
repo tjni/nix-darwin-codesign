@@ -23,6 +23,9 @@
           overlayed = pkgs.extend self.overlays.default;
         in
         {
+          keepassxc = overlayed.keepassxc;
+          keepassxc-entitlements-runtime = overlayed.keepassxc.entitlements.runtime;
+          keepassxc-entitlements-bundle-executable = overlayed.keepassxc.entitlements.bundleExecutable;
           codesign-splice = overlayed.codesign-splice;
         });
 
@@ -31,7 +34,7 @@
           overlayed = pkgs.extend self.overlays.default;
         in
         {
-          # bash and rsync pinned so signing ceremonies behave
+          # bash and rsync pinned so the signing ceremony behaves
           # identically across signer machines regardless of host
           # macOS version.
           default = pkgs.mkShellNoCC {

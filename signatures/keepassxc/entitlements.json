@@ -1,0 +1,10 @@
+{
+  "runtime": {
+    "com.apple.security.cs.allow-jit": true,
+    "com.apple.security.cs.disable-library-validation": true
+  },
+  "bundleExecutable": {
+    "com.apple.application-identifier": "5KA3K776LM.bio.ted.keepassxc",
+    "keychain-access-groups": ["5KA3K776LM.bio.ted.keepassxc"]
+  }
+}

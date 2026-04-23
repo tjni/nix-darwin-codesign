@@ -19,9 +19,13 @@ unnecessary; the nixpkgs stock build is fine.
 
 ## Packages
 
-None yet. See [`docs/proposal.md`](docs/proposal.md) for the design
-and the per-package recipe; contributions for Darwin-signed apps
-are welcome.
+| Attribute | Status |
+|---|---|
+| `keepassxc` | ✓ |
+
+Contributions for other Darwin-signed apps are welcome. See
+[`docs/proposal.md`](docs/proposal.md) for the design and the
+per-package recipe.
 
 ## Caveats on re-use
 
@@ -67,6 +71,9 @@ Reasons you probably want to fork:
 
 ### Classic Nix overlay
 
+Put this in your `configuration.nix` / home-manager config / any
+module that sets `nixpkgs.overlays`:
+
 ```nix
 {
   nixpkgs.overlays = [
@@ -75,8 +82,18 @@ Reasons you probably want to fork:
 }
 ```
 
-Applying the overlay is a no-op until a signed-variant package is
-added (see [`docs/proposal.md`](docs/proposal.md) §3 for the recipe).
+Or pull a specific package through the classic entrypoint:
+
+```nix
+let
+  nix-darwin-codesign = import (builtins.fetchTarball
+    "https://github.com/tjni/nix-darwin-codesign/archive/main.tar.gz") { };
+in
+  nix-darwin-codesign.packages.keepassxc
+```
+
+Either way, `pkgs.keepassxc` returns the signed variant on Darwin. On
+Linux it's identical to nixpkgs' stock build.
 
 ## Running a signing ceremony (per-package)
 
@@ -90,6 +107,19 @@ Each package has a `sign.sh` script that:
 
 To re-sign after a nixpkgs bump, run `pkgs/<name>/sign.sh`.
 
+To re-sign under a different Apple Developer team:
+- Edit [`signer.json`](signer.json) at the repo root (`teamId`,
+  signer name).
+- Edit `pkgs/<name>/app.json` (the app's bundle identifier).
+- Edit `signatures/<name>/entitlements.json` — profile-gated values
+  (`com.apple.application-identifier`,
+  `keychain-access-groups`) embed the App ID literally, so they
+  need to match the teamId + bundleIdentifier above.
+- Drop a new `developer-id.provisionprofile` into
+  `signatures/<name>/` (obtainable from developer.apple.com under
+  Certificates, Identifiers & Profiles).
+- Run `pkgs/<name>/sign.sh`.
+
 ## Architecture
 
 See [`docs/proposal.md`](docs/proposal.md) for:
@@ -101,6 +131,6 @@ See [`docs/proposal.md`](docs/proposal.md) for:
 
 ## License
 
-MIT (code). Signatures under `signatures/*/` are deterministic
+MIT (code). Signatures under `signatures/<name>/` are deterministic
 functions of upstream source + signer identity; the copyright on
 upstream source is upstream's.

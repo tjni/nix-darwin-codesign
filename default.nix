@@ -18,5 +18,7 @@ in
 
   packages = {
     inherit (overlayed) codesign-splice;
+  } // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    inherit (overlayed) keepassxc;
   };
 }
