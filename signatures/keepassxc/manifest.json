@@ -1,7 +1,7 @@
 {
-  "unsigned_drv_output": "/nix/store/w2fl934ga1075kxk7nszma75adyymnmj-keepassxc-2.7.12",
-  "unsigned_output_hash": "w2fl934ga1075kxk7nszma75adyymnmj",
+  "unsigned_drv_output": "/nix/store/c94dllqd4kgm1agbw8civzihb0f7pn3d-keepassxc-2.7.12",
+  "unsigned_output_hash": "c94dllqd4kgm1agbw8civzihb0f7pn3d",
   "installed_path": "/Users/tni/Applications/KeePassXC.app",
   "identity": "Developer ID Application: Theodore Ni (5KA3K776LM)",
-  "signed_at_utc": "2026-04-23T21:00:48Z"
+  "signed_at_utc": "2026-04-24T15:00:59Z"
 }
