@@ -135,12 +135,10 @@ if ! /usr/bin/security find-identity -v -p codesigning "$kc" | grep -Fq -- "$ide
 fi
 
 # --- sign inside-out ------------------------------------------------------
-# Skip the Apple TSA timestamp: TSA is frequently unreachable and
-# signatures are regenerated on demand anyway.
 sign_opts=(
     --force
     --options runtime
-    --timestamp=none
+    --timestamp
     --sign "$identity"
     --keychain "$kc"
 )
